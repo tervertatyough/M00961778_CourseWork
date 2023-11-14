@@ -3,7 +3,7 @@ let lessons = [
     id: 1001,
     programme: "Coding",
     location: "Palm Jumeirah",
-    price: 3000,
+    price: 5000,
     spaces: 5,
     image: "img/coding.jpg",
   },

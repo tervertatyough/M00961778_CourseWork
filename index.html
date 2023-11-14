@@ -13,7 +13,61 @@
         <h1 v-text="sitename"></h1>
       </header>
       <main>
-        <div v-for="lesson in lessons">
+        <div>
+          <p>
+            <input
+              type="radio"
+              v-model="sortBy"
+              id="lesson"
+              value="programme"
+            />
+            <label for="lesson"> Lesson </label>
+          </p>
+          <p>
+            <input
+              type="radio"
+              v-model="sortBy"
+              id="location"
+              value="location"
+            />
+            <label for="location"> Location </label>
+          </p>
+          <p>
+            <input type="radio" v-model="sortBy" id="price" value="price" />
+            <label for="price"> Price </label>
+          </p>
+          <p>
+            <input
+              type="radio"
+              v-model="sortBy"
+              id="spaces"
+              value="spacesAvailable"
+            />
+            <label for="spaces"> Spaces Available </label>
+          </p>
+        </div>
+        <div>
+          <p>
+            <input
+              type="radio"
+              v-model="sortOrder"
+              id="ascending"
+              value="asc"
+            />
+            <label for="ascending"> Ascending </label>
+          </p>
+
+          <p>
+            <input
+              type="radio"
+              v-model="sortOrder"
+              id="decending"
+              value="desc"
+            />
+            <label for="decending"> Descending </label>
+          </p>
+        </div>
+        <div v-for="lesson in sortedLessons">
           <figure>
             <img v-bind:src="lesson.image" alt="" height="250px" />
           </figure>
