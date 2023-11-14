@@ -11,6 +11,7 @@
     <div id="app">
       <header>
         <h1 v-text="sitename"></h1>
+        <button>{{cartItemCount}} Checkout</button>
       </header>
       <main>
         <div>
@@ -74,7 +75,18 @@
           <h3>Lesson: {{lesson.programme}}</h3>
           <p>Location: {{lesson.location}}</p>
           <p>Price: {{lesson.price}}</p>
-          <p>Spaces Available: {{lesson.spaces}}</p>
+          <p>Spaces Available: {{lesson.spaces - cartCount(lesson.id)}}</p>
+          <div>
+            <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">
+              Add To Cart
+            </button>
+            <button disabled="disabled" v-else>Add To Cart</button>
+            <span v-if="lesson.spaces === cartCount(lesson.id)">All Out!</span>
+            <span v-else-if="lesson.spaces - cartCount(lesson.id) < 3"
+              >Only {{lesson.spaces - cartCount(lesson.id)}} left!!!</span
+            >
+            <span v-else>Buy Now!</span>
+          </div>
         </div>
       </main>
     </div>

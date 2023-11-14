@@ -5,7 +5,7 @@ let webstore = new Vue({
     sitename: "M00961778 - Course Work 1",
     lessons: lessons,
     sortBy: "",
-    sortOrder: "",
+    sortOrder: "asc",
     cart: [],
   },
 
@@ -28,6 +28,23 @@ let webstore = new Vue({
         });
       }
       return sortedArray;
+    },
+  },
+  methods: {
+    addToCart(lesson) {
+      this.cart.push(lesson.id);
+    },
+    canAddToCart(lesson) {
+      return lesson.spaces > this.cartCount(lesson.id);
+    },
+    cartCount(id) {
+      let count = 0;
+      for (let i = 0; i < this.cart.length; i++) {
+        if (this.cart[i] === id) {
+          count++;
+        }
+      }
+      return count++;
     },
   },
 });
