@@ -11,82 +11,109 @@
     <div id="app">
       <header>
         <h1 v-text="sitename"></h1>
-        <button>{{cartItemCount}} Checkout</button>
+        <button v-if="enableCheckout" v-on:click="toggleCartPage">
+          {{cartItemCount}} Checkout
+        </button>
+        <button disabled="disabled" v-else="enableCheckout">Checkout</button>
       </header>
       <main>
-        <div>
-          <p>
-            <input
-              type="radio"
-              v-model="sortBy"
-              id="lesson"
-              value="programme"
-            />
-            <label for="lesson"> Lesson </label>
-          </p>
-          <p>
-            <input
-              type="radio"
-              v-model="sortBy"
-              id="location"
-              value="location"
-            />
-            <label for="location"> Location </label>
-          </p>
-          <p>
-            <input type="radio" v-model="sortBy" id="price" value="price" />
-            <label for="price"> Price </label>
-          </p>
-          <p>
-            <input
-              type="radio"
-              v-model="sortBy"
-              id="spaces"
-              value="spacesAvailable"
-            />
-            <label for="spaces"> Spaces Available </label>
-          </p>
-        </div>
-        <div>
-          <p>
-            <input
-              type="radio"
-              v-model="sortOrder"
-              id="ascending"
-              value="asc"
-            />
-            <label for="ascending"> Ascending </label>
-          </p>
-
-          <p>
-            <input
-              type="radio"
-              v-model="sortOrder"
-              id="decending"
-              value="desc"
-            />
-            <label for="decending"> Descending </label>
-          </p>
-        </div>
-        <div v-for="lesson in sortedLessons">
-          <figure>
-            <img v-bind:src="lesson.image" alt="" height="250px" />
-          </figure>
-          <h3>Lesson: {{lesson.programme}}</h3>
-          <p>Location: {{lesson.location}}</p>
-          <p>Price: {{lesson.price}}</p>
-          <p>Spaces Available: {{lesson.spaces - cartCount(lesson.id)}}</p>
+        <div v-if="showCartPage">
           <div>
-            <button v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)">
-              Add To Cart
-            </button>
-            <button disabled="disabled" v-else>Add To Cart</button>
-            <span v-if="lesson.spaces === cartCount(lesson.id)">All Out!</span>
-            <span v-else-if="lesson.spaces - cartCount(lesson.id) < 3"
-              >Only {{lesson.spaces - cartCount(lesson.id)}} left!!!</span
-            >
-            <span v-else>Buy Now!</span>
+            <p>
+              <input
+                type="radio"
+                v-model="sortBy"
+                id="lesson"
+                value="programme"
+              />
+              <label for="lesson"> Lesson </label>
+            </p>
+            <p>
+              <input
+                type="radio"
+                v-model="sortBy"
+                id="location"
+                value="location"
+              />
+              <label for="location"> Location </label>
+            </p>
+            <p>
+              <input type="radio" v-model="sortBy" id="price" value="price" />
+              <label for="price"> Price </label>
+            </p>
+            <p>
+              <input
+                type="radio"
+                v-model="sortBy"
+                id="spaces"
+                value="spacesAvailable"
+              />
+              <label for="spaces"> Spaces Available </label>
+            </p>
           </div>
+          <div>
+            <p>
+              <input
+                type="radio"
+                v-model="sortOrder"
+                id="ascending"
+                value="asc"
+              />
+              <label for="ascending"> Ascending </label>
+            </p>
+
+            <p>
+              <input
+                type="radio"
+                v-model="sortOrder"
+                id="decending"
+                value="desc"
+              />
+              <label for="decending"> Descending </label>
+            </p>
+          </div>
+          <div v-for="lesson in sortedLessons">
+            <figure>
+              <img v-bind:src="lesson.image" alt="" height="250px" />
+            </figure>
+            <h3>Lesson: {{lesson.programme}}</h3>
+            <p>Location: {{lesson.location}}</p>
+            <p>Price: {{lesson.price}}</p>
+            <p>Spaces Available: {{lesson.spaces - cartCount(lesson.id)}}</p>
+            <div>
+              <button
+                v-on:click="addToCart(lesson)"
+                v-if="canAddToCart(lesson)"
+              >
+                Add To Cart
+              </button>
+              <button disabled="disabled" v-else>Add To Cart</button>
+              <span v-if="lesson.spaces === cartCount(lesson.id)"
+                >All Out!</span
+              >
+              <span v-else-if="lesson.spaces - cartCount(lesson.id) < 3"
+                >Only {{lesson.spaces - cartCount(lesson.id)}} left!!!</span
+              >
+              <span v-else>Buy Now!</span>
+            </div>
+          </div>
+        </div>
+        <div v-else="showCartPage">
+          <h2>Checkout Page</h2>
+          <ul>
+            <li v-for="(lessonId, index) in cart" :key="index">
+              <h3>Lesson ID: {{ lessonId }}</h3>
+              <div v-if="getLessonDetails(lessonId)">
+                <p>Lesson Name: {{ getLessonDetails(lessonId).lessonName }}</p>
+                <p>Location: {{ getLessonDetails(lessonId).location }}</p>
+                <p>Price: {{ getLessonDetails(lessonId).price }}</p>
+                <button v-on:click="removeFromCart(index)">Remove</button>
+              </div>
+              <div v-else>
+                <p>Lesson details not found for ID: {{ lessonId }}</p>
+              </div>
+            </li>
+          </ul>
         </div>
       </main>
     </div>

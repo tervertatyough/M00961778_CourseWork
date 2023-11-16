@@ -1,17 +1,21 @@
 let webstore = new Vue({
   el: "#app",
-
   data: {
     sitename: "M00961778 - Course Work 1",
     lessons: lessons,
     sortBy: "",
     sortOrder: "asc",
+    showCartPage: true,
     cart: [],
   },
 
   computed: {
     cartItemCount() {
       return this.cart.length;
+    },
+
+    enableCheckout() {
+      return this.cart.length > 0;
     },
 
     sortedLessons() {
@@ -45,6 +49,22 @@ let webstore = new Vue({
         }
       }
       return count++;
+    },
+    toggleCartPage() {
+      this.showCartPage = !this.showCartPage;
+    },
+    removeFromCart(index) {
+      const removedLesson = this.cart.splice(index, 1)[0];
+      const originalLessonIndex = this.lessons.findIndex(
+        (item) => item.id === removedLesson.id
+      );
+
+      if (originalLessonIndex !== -1) {
+        this.lessons.splice(originalLessonIndex, 0, removedLesson);
+      }
+    },
+    getLessonDetails(lessonId) {
+      return this.lessons.find((lesson) => lesson.id === lessonId);
     },
   },
 });
