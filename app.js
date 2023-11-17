@@ -6,12 +6,20 @@ let webstore = new Vue({
     sortBy: "",
     sortOrder: "asc",
     showCartPage: true,
+    order: {
+      name: "",
+      number: "",
+    },
     cart: [],
   },
 
   computed: {
     cartItemCount() {
       return this.cart.length;
+    },
+
+    canCheckOut() {
+      return this.order.name !== "" && this.order.number !== "";
     },
 
     enableCheckout() {
@@ -41,6 +49,7 @@ let webstore = new Vue({
     canAddToCart(lesson) {
       return lesson.spaces > this.cartCount(lesson.id);
     },
+
     cartCount(id) {
       let count = 0;
       for (let i = 0; i < this.cart.length; i++) {
@@ -65,6 +74,9 @@ let webstore = new Vue({
     },
     getLessonDetails(lessonId) {
       return this.lessons.find((lesson) => lesson.id === lessonId);
+    },
+    submitOrder() {
+      alert("Order Submitted!");
     },
   },
 });
