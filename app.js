@@ -3,6 +3,7 @@ let webstore = new Vue({
   data: {
     sitename: "M00961778 - Course Work 1",
     lessons: lessons,
+    searchQuery: "",
     sortBy: "",
     sortOrder: "asc",
     showCartPage: true,
@@ -18,28 +19,57 @@ let webstore = new Vue({
       return this.cart.length;
     },
 
+    // Function to allow Placing Order
     canCheckOut() {
       return this.order.name !== "" && this.order.number !== "";
     },
 
+    // function to enable checkout button
     enableCheckout() {
       return this.cart.length > 0;
     },
 
-    sortedLessons() {
-      let sortedArray = this.lessons.slice();
-      if (this.sortBy) {
-        sortedArray.sort((a, b) => {
-          let modifier = 1;
-          if (this.sortOrder === "desc") {
-            modifier = -1;
-          }
-          if (a[this.sortBy] < b[this.sortBy]) return -1 * modifier;
-          if (a[this.sortBy] > b[this.sortBy]) return 1 * modifier;
-          return 0;
-        });
+    // sortedLessons() {
+    //   let sortedArray = this.lessons.slice();
+    //   if (this.sortBy) {
+    //     sortedArray.sort((a, b) => {
+    //       let modifier = 1;
+    //       if (this.sortOrder === "desc") {
+    //         modifier = -1;
+    //       }
+    //       if (a[this.sortBy] < b[this.sortBy]) return -1 * modifier;
+    //       if (a[this.sortBy] > b[this.sortBy]) return 1 * modifier;
+    //       return 0;
+    //     });
+    //   }
+    //   return sortedArray;
+    // },
+
+    // Function to Filter Lessons based on search as you type
+    filteredLessons() {
+      const query = this.searchQuery.toLowerCase().trim();
+      if (!query) {
+        return this.lessons;
+      } else {
+        return this.lessons.filter(
+          (lesson) =>
+            lesson.programme.toLowerCase().includes(query) ||
+            lesson.location.toLowerCase().includes(query)
+        );
       }
-      return sortedArray;
+    },
+
+    // Function to sort the filtered lessons
+    filteredLessonsSorted() {
+      return this.filteredLessons.sort((a, b) => {
+        let modifier = 1;
+        if (this.sortOrder === "desc") {
+          modifier = -1;
+        }
+        if (a[this.sortBy] < b[this.sortBy]) return -1 * modifier;
+        if (a[this.sortBy] > b[this.sortBy]) return 1 * modifier;
+        return 0;
+      });
     },
   },
   methods: {
@@ -77,6 +107,8 @@ let webstore = new Vue({
     },
     submitOrder() {
       alert("Order Submitted!");
+
+      window.location.href = "index.html";
     },
   },
 });

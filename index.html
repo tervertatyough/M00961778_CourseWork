@@ -43,6 +43,7 @@
             <div>
               <input
                 type="search"
+                v-model="searchQuery"
                 name="search"
                 id="search"
                 placeholder="Search Lesson..."
@@ -129,7 +130,7 @@
           </div>
           <div class="flex flex-wrap w-full">
             <div
-              v-for="lesson in sortedLessons"
+              v-for="lesson in filteredLessonsSorted"
               class="bg-orange-400 w-70 p-4 m-2 flex flex-col items-center"
             >
               <figure>
