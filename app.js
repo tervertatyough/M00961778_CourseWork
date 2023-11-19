@@ -29,22 +29,6 @@ let webstore = new Vue({
       return this.cart.length > 0;
     },
 
-    // sortedLessons() {
-    //   let sortedArray = this.lessons.slice();
-    //   if (this.sortBy) {
-    //     sortedArray.sort((a, b) => {
-    //       let modifier = 1;
-    //       if (this.sortOrder === "desc") {
-    //         modifier = -1;
-    //       }
-    //       if (a[this.sortBy] < b[this.sortBy]) return -1 * modifier;
-    //       if (a[this.sortBy] > b[this.sortBy]) return 1 * modifier;
-    //       return 0;
-    //     });
-    //   }
-    //   return sortedArray;
-    // },
-
     // Function to Filter Lessons based on search as you type
     filteredLessons() {
       const query = this.searchQuery.toLowerCase().trim();
@@ -89,9 +73,13 @@ let webstore = new Vue({
       }
       return count++;
     },
+
+    // function to show cart page
     toggleCartPage() {
       this.showCartPage = !this.showCartPage;
     },
+
+    // Function to remove from Cart
     removeFromCart(index) {
       const removedLesson = this.cart.splice(index, 1)[0];
       const originalLessonIndex = this.lessons.findIndex(
@@ -102,9 +90,13 @@ let webstore = new Vue({
         this.lessons.splice(originalLessonIndex, 0, removedLesson);
       }
     },
+
+    // Function to know the lesson that was removed from cart
     getLessonDetails(lessonId) {
       return this.lessons.find((lesson) => lesson.id === lessonId);
     },
+
+    // Funtion to submit the order
     submitOrder() {
       alert("Order Submitted!");
 
