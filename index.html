@@ -172,7 +172,7 @@
               >
                 Only {{lesson.spaces - cartCount(lesson.id)}} left!!!
               </p>
-              <p class="text-white" v-else>Buy Now!</p>
+              <p class="font-semibold text-white" v-else>Buy Now!</p>
               <button
                 v-on:click="addToCart(lesson)"
                 v-if="canAddToCart(lesson)"
